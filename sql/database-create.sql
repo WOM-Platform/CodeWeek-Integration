@@ -16,7 +16,7 @@ USE `CodeWeekWom`;
 -- -----------------------------------------------------
 -- Table `CodeWeekWom`.`Certificates`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Wom`.`Certificates` (
+CREATE TABLE IF NOT EXISTS `CodeWeekWom`.`Certificates` (
   `CertificateId` INTEGER NOT NULL,
   `Url` VARCHAR(2048) NOT NULL COLLATE latin1_general_ci,
   `RegistrationDate` DATETIME NOT NULL,

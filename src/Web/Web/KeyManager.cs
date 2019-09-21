@@ -24,7 +24,7 @@ namespace WomPlatform.Web.Api {
             var keysConf = configuration.GetSection("RegistryKeys");
 
             if (!string.IsNullOrEmpty(keysConf["PrivateInstrumentPath"])) {
-                RegistryPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivatePath"]).Private;
+                RegistryPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivateInstrumentPath"]).Private;
                 Logger.LogTrace(LoggingEvents.KeyManagement, "Private key loaded: {0}", RegistryPrivateKey);
             }
             else {

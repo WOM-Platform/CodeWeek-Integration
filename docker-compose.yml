@@ -6,8 +6,8 @@ networks:
   backend:
 
 services:
-  api:
-    build: ./src/ApiServer
+  web:
+    build: ./src/Web
     depends_on:
     - database
     networks:

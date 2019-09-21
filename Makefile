@@ -15,12 +15,9 @@ cmd:
 	@echo 'Docker-Compose command:'
 	@echo '${DC}'
 
-.PHONY: install install_example
+.PHONY: install
 install:
 	${DC_RUN} database-client mysql -h database -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < sql/database-create.sql
-
-install_example:
-	${DC_RUN} database-client mysql -h database -u ${MYSQL_USER} -p${MYSQL_PASSWORD} ${MYSQL_DATABASE} < sql/database-example.sql
 
 .PHONY: mysql
 mysql: up
@@ -49,7 +46,7 @@ up:
 	${DC} up -d
 	${DC} ps
 	@echo
-	@echo 'WOM registry service is now up'
+	@echo 'WOM Code Week service is now up'
 	@echo
 
 .PHONY: ps
@@ -62,8 +59,8 @@ rs:
 
 .PHONY: rebuild
 rebuild:
-	${DC} rm -sf api
-	${DC} build api
+	${DC} rm -sf web
+	${DC} build web
 	${DC} up -d
 
 .PHONY: stop
@@ -76,4 +73,4 @@ rm:
 
 .PHONY: logs
 logs:
-	docker logs -f $(shell ${DC} ps -q api)
+	docker logs -f $(shell ${DC} ps -q web)
