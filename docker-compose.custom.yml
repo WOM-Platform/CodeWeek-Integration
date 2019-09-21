@@ -1,0 +1,26 @@
+# Config override for deployment
+version: '3'
+
+volumes:
+  wom_codeweek_integration:
+    external: true
+
+services:
+  api:
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Production
+    volumes:
+    - ./keys:/keys:ro
+    labels:
+    - "traefik.enable=true"
+    - "traefik.docker.network=web"
+    - "traefik.protocol=http"
+    - "traefik.port=8779"
+    - "traefik.frontend.rule=Host:codeweek.wom.social"
+    - "traefik.frontend.entryPoints=http,https"
+    - "traefik.frontend.redirect.entryPoint=https"
+    restart: unless-stopped
+
+  database:
+    volumes:
+    - wom_codeweek_integration:/var/lib/mysql:rw

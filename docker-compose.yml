@@ -1,0 +1,32 @@
+version: '3'
+
+networks:
+  web:
+    external: true
+  backend:
+
+services:
+  api:
+    build: ./src/ApiServer
+    depends_on:
+    - database
+    networks:
+    - web
+    - backend
+    env_file: config.env
+    expose:
+      - "8779"
+
+  database:
+    image: mysql:5.7
+    networks:
+    - backend
+    env_file: config.env
+
+  database-client:
+    build: ./src/MysqlClient
+    depends_on:
+    - database
+    networks:
+    - backend
+    env_file: config.env
