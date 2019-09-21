@@ -1,0 +1,35 @@
+﻿@using WomPlatform.Web.Api.ViewModel;
+@model ConversionResult
+@{
+    Layout = "Main";
+    ViewData["Title"] = "Certificate converted";
+}
+
+<div class="row">
+    <div class="twelve columns">
+        <p>
+            Your <b>EU&nbsp;Code&nbsp;Week</b> certificate has been successfully converted into WOM Vouchers.
+            Please use the QR&nbsp;Code below to get access to the vouchers: scan it using your smartphone (if you're using a desktop computer) or tap on the code (if you're using a smartphone).
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="three columns">&nbsp;</div>
+
+    <div class="six columns centered">
+        <!--<img src="wom-logo.png" alt="WOM logo" class="u-full-width" />-->
+
+        <p>
+            <a href="https://wom.social/vouchers/@Model.OtcCode">
+                QR CODE
+            </a>
+        </p>
+
+        <p>
+            Password: <b>@Model.Password</b>
+        </p>
+    </div>
+
+    <div class="three columns">&nbsp;</div>
+</div>

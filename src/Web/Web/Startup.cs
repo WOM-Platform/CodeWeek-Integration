@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace WomPlatform.Web.Api {
@@ -53,6 +54,14 @@ namespace WomPlatform.Web.Api {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<KeyManager>();
             services.AddScoped<DataContext>();
+            services.AddScoped(provider => {
+                var keyManager = provider.GetRequiredService<KeyManager>();
+                Console.WriteLine("Private {0}", keyManager.InstrumentPrivateKey);
+                Console.WriteLine("Public {0}", keyManager.RegistryPublicKey);
+                return new Connector.Client(provider.GetRequiredService<ILoggerFactory>(), keyManager.RegistryPublicKey) {
+                    TestMode = true
+                };
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {

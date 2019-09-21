@@ -24,16 +24,16 @@ namespace WomPlatform.Web.Api {
             var keysConf = configuration.GetSection("RegistryKeys");
 
             if (!string.IsNullOrEmpty(keysConf["PrivateInstrumentPath"])) {
-                RegistryPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivateInstrumentPath"]).Private;
-                Logger.LogTrace(LoggingEvents.KeyManagement, "Private key loaded: {0}", RegistryPrivateKey);
+                InstrumentPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivateInstrumentPath"]).Private;
+                Logger.LogTrace(LoggingEvents.KeyManagement, "Private key loaded: {0}", InstrumentPrivateKey);
             }
             else {
                 Logger.LogError(LoggingEvents.KeyManagement, "Private key not loaded");
             }
 
             if(!string.IsNullOrEmpty(keysConf["PublicRegistryPath"])) {
-                RegistryPrivateKey = LoadKeyFromPem<AsymmetricKeyParameter>(keysConf["PublicRegistryPath"]);
-                Logger.LogTrace(LoggingEvents.KeyManagement, "Public key loaded: {0}", RegistryPrivateKey);
+                RegistryPublicKey = LoadKeyFromPem<AsymmetricKeyParameter>(keysConf["PublicRegistryPath"]);
+                Logger.LogTrace(LoggingEvents.KeyManagement, "Public key loaded: {0}", InstrumentPrivateKey);
             }
             else {
                 Logger.LogError(LoggingEvents.KeyManagement, "Public key not loaded");
@@ -62,7 +62,7 @@ namespace WomPlatform.Web.Api {
             }
         }
 
-        public AsymmetricKeyParameter RegistryPrivateKey { get; }
+        public AsymmetricKeyParameter InstrumentPrivateKey { get; }
 
         public AsymmetricKeyParameter RegistryPublicKey { get; }
 

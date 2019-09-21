@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using WomPlatform.Web.Api.ViewModel;
 
 namespace WomPlatform.Web.Api.Controllers {
 
@@ -17,11 +18,13 @@ namespace WomPlatform.Web.Api.Controllers {
             IConfiguration configuration,
             KeyManager keyManager,
             DataContext database,
+            Connector.Client womClient,
             ILogger<HomeController> logger
         ) {
             Configuration = configuration;
             KeyManager = keyManager;
             Database = database;
+            WomClient = womClient;
             Logger = logger;
         }
 
@@ -30,6 +33,8 @@ namespace WomPlatform.Web.Api.Controllers {
         protected KeyManager KeyManager { get; }
 
         protected DataContext Database { get; }
+
+        protected Connector.Client WomClient { get; }
 
         protected ILogger<HomeController> Logger { get; }
 
@@ -69,9 +74,21 @@ namespace WomPlatform.Web.Api.Controllers {
             }
             Logger.LogDebug("Certificate validated, HEAD request returns status OK");
 
-            return Content("Success!");
+            var instrument = WomClient.CreateInstrument(1, KeyManager.InstrumentPrivateKey);
+            var womResult = await instrument.RequestVouchers(new Connector.Models.VoucherCreatePayload.VoucherInfo[] {
+                new Connector.Models.VoucherCreatePayload.VoucherInfo {
+                    Aim = "C",
+                    Count = 1,
+                    Latitude = 42.934872,
+                    Longitude = 12.609390,
+                    Timestamp = DateTime.UtcNow
+                }
+            });
 
-            //return RedirectToAction(nameof(Index));
+            return View("Vouchers", new ConversionResult {
+                OtcCode = womResult.Otc.ToString("N"),
+                Password = womResult.Password
+            });
         }
 
     }
