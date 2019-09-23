@@ -18,11 +18,9 @@
     <div class="three columns">&nbsp;</div>
 
     <div class="six columns centered">
-        <!--<img src="wom-logo.png" alt="WOM logo" class="u-full-width" />-->
-
         <p>
             <a href="https://wom.social/vouchers/@Model.OtcCode">
-                QR CODE
+                <img src="@Url.Action("Index", "Render", new { url = "https://wom.social/vouchers/" + Model.OtcCode })" alt="WOM logo" class="u-full-width" />
             </a>
         </p>
 
