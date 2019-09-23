@@ -1,4 +1,6 @@
-﻿@{
+﻿@using WomPlatform.Web.Api.ViewModel;
+@model ConversionModelViewModel
+@{
     Layout = "Main";
     ViewData["Title"] = "Certificate conversion";
 }
@@ -14,12 +16,53 @@
 <div class="row">
     <div class="twelve columns">
         <h3>Certificate conversion</h3>
-
-        <form asp-action="Process" method="post">
-            <label for="certificateUrlInput">Certificate URL:</label>
-            <input class="u-full-width" name="certificateUrl" type="text" placeholder="https://codeweek-s3.s3.amazonaws.com/certificates/…" />
-
-            <input class="button-primary" type="submit" value="Convert certificate" />
-        </form>
     </div>
 </div>
+<form asp-action="Process" method="post">
+    <div class="row">
+        <div class="six columns">
+            <label for="certificateUrlInput">Certificate URL:</label>
+            <input class="u-full-width" name="certificateUrl" type="text" placeholder="https://codeweek-s3.s3.amazonaws.com/certificates/…" value="@Model.CertificateUrl" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateUrlInvalid) {
+                <p class="error">Certificate URL is not valid.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateNotExisting) {
+                <p class="error">Certificate does not exist.</p>
+            }
+        </div>
+        <div class="six columns">
+            <label for="eventPageUrl">Event page URL:</label>
+            <input class="u-full-width" name="eventPageUrl" type="text" placeholder="https://codeweek.eu/view/…" value="@Model.EventPageUrl" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlInvalid) {
+                <p class="error">Event page URL is not valid.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlFailedToCheck) {
+                <p class="error">Event page does not exist or is invalid.</p>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <input class="button-primary" type="submit" value="Convert certificate" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateNotExisting) {
+                <p class="error">The certificate must exist: please check that the URL was input correctly. Please copy the direct link to the certificate PDF.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateAlreadyConverted) {
+                <p class="error">The event has <i>already</i> been converted into WOM&nbsp;Vouchers.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlFailedToCheck) {
+                <p class="error">The event page appears not to exist or does not contain valid data. Please copy the direct link to your event on the Code&nbsp;Week portal.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.InternalWomGenerationError) {
+                <p class="error">Whoops! Failed to generate WOM&nbsp;Vouchers: we're looking into the error, sorry!</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventCertificateIdDifform) {
+                <p class="error">Event page and certificate refer to different events.</p>
+            }
+
+        </div>
+    </div>
+</form>
