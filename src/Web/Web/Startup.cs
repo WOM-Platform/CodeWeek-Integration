@@ -3,11 +3,14 @@ using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace WomPlatform.Web.Api {
@@ -21,7 +24,14 @@ namespace WomPlatform.Web.Api {
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddMvc()
+            services
+                .AddLocalization(options => {
+                    options.ResourcesPath = "Resources";
+                })
+            ;
+
+            services
+                .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddMvcOptions(opts => {
                     opts.AllowEmptyInputInBodyModelBinding = true;
@@ -33,7 +43,9 @@ namespace WomPlatform.Web.Api {
                     opts.SerializerSettings.DateParseHandling = DateParseHandling.DateTime;
                     opts.SerializerSettings.Formatting = Formatting.None;
                     opts.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                });
+                })
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            ;
 
             services.AddDbContext<DataContext>(o => {
                 var dbSection = Configuration.GetSection("Database");
@@ -69,7 +81,17 @@ namespace WomPlatform.Web.Api {
                 app.UseDeveloperExceptionPage();
             }
 
+            var cultures = new CultureInfo[] {
+                new CultureInfo("en"),
+                new CultureInfo("it")
+            };
+
             app.UseStaticFiles();
+            app.UseRequestLocalization(new RequestLocalizationOptions {
+                DefaultRequestCulture = new RequestCulture("en"),
+                SupportedCultures = cultures,
+                SupportedUICultures = cultures
+            });
             app.UseMvc();
         }
     }
