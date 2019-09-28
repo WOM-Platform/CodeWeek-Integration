@@ -18,6 +18,35 @@
         <p>
             Se hai già registrato il tuo evento ed hai ricevuto il certificato relativo, utilizza il modulo sottostante per ottenere i voucher.
         </p>
+
+        <p class="warning-box">
+            <span class="title">Prima di cominciare</span><br />
+            Assicurati di aver installato l'installazione “WOM Pocket” prima di iniziare il processo di conversione (vedi sotto).
+            Ogni evento Code&nbsp;Week può essere convertito in voucher&nbsp;WOM soltanto una volta.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="twelve columns">
+        <h3>Applicazioni mobili</h3>
+            
+        <p>
+            Per ottenere i tuoi voucher&nbsp;WOM, avrai bisogno dell'applicazione “WOM Pocket”.
+            Installa l'applicazione prima di convertire i tuoi certificati Code Week in modo da accertarti di riuscire ad acquisirli senza problemi.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="six columns badge">
+        <a href="https://play.google.com/store/apps/details?id=social.wom.pocket" title="Installa WOM Pocket da Google Play">
+            <img src="badge_google_play.png" alt="Google Play" />
+        </a>
+    </div>
+    <div class="six columns badge">
+        <a href="https://apps.apple.com/it/app/wom-pocket/id1466969163" title="Install WOM Pocket da App Store">
+            <img src="badge_app_store.png" alt="Apple App Store" />
+        </a>
     </div>
 </div>
 
@@ -53,7 +82,7 @@
     </div>
     <div class="row">
         <div class="twelve columns">
-            <input class="button-primary" type="submit" value="Convert certificate" />
+            <input class="button-primary" type="submit" value="Converti certificato" />
 
             @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateNotExisting) {
                 <p class="error">Il certificato deve essere raggiungibile pubblicamente: verifica di aver copiato l'indirizzo del certificato in maniera corretta.</p>
@@ -74,27 +103,3 @@
         </div>
     </div>
 </form>
-
-<div class="row">
-    <div class="twelve columns">
-        <h3>Applicazioni mobili</h3>
-            
-        <p>
-            Per ottenere i tuoi voucher&nbsp;WOM, avrai bisogno dell'applicazione “WOM Pocket”.
-            Installa l'applicazione prima di convertire i tuoi certificati Code Week in modo da accertarti di riuscire ad acquisirli senza problemi.
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="six columns badge">
-        <a href="https://play.google.com/store/apps/details?id=social.wom.pocket" title="Installa WOM Pocket da Google Play">
-            <img src="badge_google_play.png" alt="Google Play" />
-        </a>
-    </div>
-    <div class="six columns badge">
-        <a href="https://apps.apple.com/it/app/wom-pocket/id1466969163" title="Install WOM Pocket da App Store">
-            <img src="badge_app_store.png" alt="Apple App Store" />
-        </a>
-    </div>
-</div>

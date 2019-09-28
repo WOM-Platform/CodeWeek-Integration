@@ -59,3 +59,12 @@ footer {
     max-width: 50%;
     height: auto;
 }
+
+.warning-box {
+    border: solid 1px orangered;
+    background-color: #ffeece;
+    padding: 1em;
+}
+.warning-box .title {
+    font-weight: bold;
+}
