@@ -147,6 +147,18 @@ namespace WomPlatform.Web.Api.Controllers {
                     }
                 });
 
+                // Register conversion
+                await Database.Certificates.AddAsync(new DatabaseModels.Certificate {
+                    CertificateId = certificateId,
+                    CertificateUrl = certificateUrl,
+                    EventPageUrl = eventPageUrl,
+                    RegistrationDate = DateTime.UtcNow
+                });
+                int changed = await Database.SaveChangesAsync();
+                if(changed != 1) {
+                    Logger.LogError("Certificate registration returned number of changes {0} != 1", changed);
+                }
+
                 return View("Vouchers", new ConversionResult {
                     OtcCode = otc.ToString("N"),
                     Password = password

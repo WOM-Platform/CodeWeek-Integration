@@ -9,7 +9,9 @@ namespace WomPlatform.Web.Api.DatabaseModels {
 
         public long CertificateId { get; set; }
 
-        public string Url { get; set; }
+        public string CertificateUrl { get; set; }
+
+        public string EventPageUrl { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 

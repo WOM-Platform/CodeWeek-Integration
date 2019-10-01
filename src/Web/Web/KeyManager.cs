@@ -23,6 +23,14 @@ namespace WomPlatform.Web.Api {
 
             var keysConf = configuration.GetSection("RegistryKeys");
 
+            if(!string.IsNullOrEmpty(keysConf["SourceID"])) {
+                SourceId = Convert.ToInt32(keysConf["SourceID"]);
+                Logger.LogTrace(LoggingEvents.KeyManagement, "Source ID loaded: {0}", SourceId);
+            }
+            else {
+                Logger.LogError(LoggingEvents.KeyManagement, "Source ID not loaded");
+            }
+
             if (!string.IsNullOrEmpty(keysConf["PrivateInstrumentPath"])) {
                 InstrumentPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivateInstrumentPath"]).Private;
                 Logger.LogTrace(LoggingEvents.KeyManagement, "Private key loaded: {0}", InstrumentPrivateKey);
@@ -61,6 +69,8 @@ namespace WomPlatform.Web.Api {
                 return reader.ReadObject() as T;
             }
         }
+
+        public int SourceId { get; }
 
         public AsymmetricKeyParameter InstrumentPrivateKey { get; }
 

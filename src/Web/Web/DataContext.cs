@@ -27,7 +27,9 @@ namespace WomPlatform.Web.Api {
             modelBuilder.Entity<Certificate>().HasKey(nameof(Certificate.CertificateId));
             modelBuilder.Entity<Certificate>().Property(nameof(Certificate.CertificateId))
                 .ValueGeneratedNever().IsRequired();
-            modelBuilder.Entity<Certificate>().Property(nameof(Certificate.Url))
+            modelBuilder.Entity<Certificate>().Property(nameof(Certificate.CertificateUrl))
+                .HasMaxLength(2048).IsRequired();
+            modelBuilder.Entity<Certificate>().Property(nameof(Certificate.EventPageUrl))
                 .HasMaxLength(2048).IsRequired();
             modelBuilder.Entity<Certificate>().Property(nameof(Certificate.RegistrationDate))
                 .IsRequired();
