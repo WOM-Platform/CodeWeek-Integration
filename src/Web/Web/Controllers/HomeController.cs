@@ -139,8 +139,8 @@ namespace WomPlatform.Web.Api.Controllers {
                 var instrument = WomClient.CreateInstrument(1, KeyManager.InstrumentPrivateKey);
                 var (otc, password) = await instrument.RequestVouchers(new Connector.Models.VoucherCreatePayload.VoucherInfo[] {
                     new Connector.Models.VoucherCreatePayload.VoucherInfo {
-                        Aim = "C",
-                        Count = 1,
+                        Aim = "E",
+                        Count = 60,
                         Latitude = eventLat,
                         Longitude = eventLong,
                         Timestamp = DateTime.UtcNow
