@@ -1,0 +1,121 @@
+﻿@using WomPlatform.Web.Api.ViewModel;
+@model ConversionModelViewModel
+@{
+    Layout = "Main";
+    ViewData["Title"] = "Conversione certificati";
+}
+
+<div class="row">
+    <div class="twelve columns">
+        <p>
+            Molte delle azioni che gli individui compiono contribuiscono al bene collettivo e hanno un <i>valore sociale</i>, che in economia viene detto <b>“esternalità positiva”</b>. I WOM sono dei <i>voucher digitali</i> progettati per funzionare da ricompensa a queste azioni ed il loro valore sociale. <a href="https://wom.social">Visita il sito Web ufficiale per più informazioni</a>.
+        </p>
+
+        <p>
+            Con lo scopo di riconoscere e valorizzare l'insegnamento del <i>pensiero computazionale</i> e del <i>coding</i>, <a href="https://digit.srl">DIGIT&nbsp;srl</a> ha deciso di ricompensare tutti gli eventi pubblici organizzati in occasione di <b>Europe Code Week 2019</b>: tutti gli eventi riconosciuti da Code Week saranno ricompensati con 60&nbsp;WOM.
+        </p>
+
+        <p>
+            Se hai già registrato il tuo evento ed hai ricevuto il certificato relativo, utilizza il <a href="#form">modulo sottostante</a> per ottenere i voucher.
+        </p>
+
+        <p class="warning-box">
+            <span class="title">Prima di cominciare</span><br />
+            Assicurati di aver installato l'applicazione “WOM Pocket” prima di iniziare il processo di conversione (vedi sotto).
+            Ogni evento Code&nbsp;Week può essere convertito in voucher&nbsp;WOM soltanto una volta.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="twelve columns">
+        <h3>Applicazioni mobili</h3>
+            
+        <p>
+            Per ottenere i tuoi voucher&nbsp;WOM, avrai bisogno dell'applicazione “WOM Pocket”.
+            Installa l'applicazione prima di convertire i tuoi certificati Code Week in modo da accertarti di riuscire ad acquisirli senza problemi.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="six columns badge">
+        <a href="https://play.google.com/store/apps/details?id=social.wom.pocket" title="Installa WOM Pocket da Google Play">
+            <img src="badge_google_play.png" alt="Google Play" />
+        </a>
+    </div>
+    <div class="six columns badge">
+        <a href="https://apps.apple.com/it/app/wom-pocket/id1466969163" title="Install WOM Pocket da App Store">
+            <img src="badge_app_store.png" alt="Apple App Store" />
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="twelve columns">
+        <h3>Come usare i WOM</h3>
+            
+        <p>
+            I voucher&nbsp;WOM accumulati nel tuo “WOM&nbsp;Pocket” non hanno un controvalore in denaro, ma <b>certificano il tuo impegno</b>.
+            Chiunque voglia premiarti per l'impegno che hai dedicato a Code&nbsp;Week, potrà offrirti sconti e agevolazioni in cambio dei WOM, secondo la propria sensibilità.
+        </p>
+        
+        <p>
+            A titolo di esempio, esercenti locali potrebbero offrirti sconti sull'acquisto dei libri o sui parcheggi, mentre a livello globale potresti ricevere sconti su acquisti online.
+            Al termine di Code&nbsp;Week, annunceremo le principali opportunità di utilizzo sul <a href="https://wom.social/">portale&nbsp;WOM</a>.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="twelve columns">
+        <h2 id="form">Conversione certificati</h2>
+    </div>
+</div>
+<form asp-action="Process" method="post">
+    <div class="row">
+        <div class="six columns">
+            <label for="certificateUrlInput">URL del certificato:</label>
+            <input class="u-full-width" name="certificateUrl" type="text" placeholder="https://codeweek-s3.s3.amazonaws.com/certificates/…" value="@Model.CertificateUrl" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateUrlInvalid) {
+                <p class="error">L'indirizzo del certificato non è valido.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateNotExisting) {
+                <p class="error">Il certificato non esiste o non è valido.</p>
+            }
+        </div>
+        <div class="six columns">
+            <label for="eventPageUrl">URL dell'evento:</label>
+            <input class="u-full-width" name="eventPageUrl" type="text" placeholder="https://codeweek.eu/view/…" value="@Model.EventPageUrl" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlInvalid) {
+                <p class="error">Indirizzo non valido.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlFailedToCheck) {
+                <p class="error">Pagina dell'evento non esistente o non valida.</p>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve columns">
+            <input class="button-primary" type="submit" value="Converti certificato" />
+
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateNotExisting) {
+                <p class="error">Il certificato deve essere raggiungibile pubblicamente: verifica di aver copiato l'indirizzo del certificato in maniera corretta.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.CertificateAlreadyConverted) {
+                <p class="error">Questo evento è stato <i>già</i> convertito in voucher&nbsp;WOM.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventUrlFailedToCheck) {
+                <p class="error">La pagina dell'evento non esiste o non è valida: assicurati di aver copiato correttamente l'indirizzo della pagina evento dal portale EU Code Week.</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.InternalWomGenerationError) {
+                <p class="error">Ops! Si è verificato un errore interno durante la generazione dei voucher, spiacente!</p>
+            }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventCertificateIdDifform) {
+                <p class="error">Pagina evento e certificato fanno riferimento a diversi eventi.</p>
+            }
+
+        </div>
+    </div>
+</form>

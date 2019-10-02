@@ -44,6 +44,15 @@
     <section>
         <div class="container">
             @RenderBody()
+
+            <div class="row">
+                <div class="twelve columns centered">
+                    <div class="language-switcher">
+                        @Html.ActionLink("English", "Set", "Language", new { language = "en" }) |
+                        @Html.ActionLink("Italiano", "Set", "Language", new { language = "it" })
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
