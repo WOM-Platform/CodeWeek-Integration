@@ -140,7 +140,7 @@ namespace WomPlatform.Web.Api.Controllers {
             Logger.LogInformation("Generating vouchers for event {0} at location {1},{2}", eventId, eventLat, eventLong);
 
             try {
-                var instrument = WomClient.CreateInstrument(1, KeyManager.InstrumentPrivateKey);
+                var instrument = WomClient.CreateInstrument(KeyManager.SourceId, KeyManager.InstrumentPrivateKey);
                 var (otc, password) = await instrument.RequestVouchers(new Connector.Models.VoucherCreatePayload.VoucherInfo[] {
                     new Connector.Models.VoucherCreatePayload.VoucherInfo {
                         Aim = "E",

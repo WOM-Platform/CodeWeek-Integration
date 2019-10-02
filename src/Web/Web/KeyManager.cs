@@ -25,7 +25,7 @@ namespace WomPlatform.Web.Api {
 
             if(!string.IsNullOrEmpty(keysConf["SourceID"])) {
                 SourceId = Convert.ToInt32(keysConf["SourceID"]);
-                Logger.LogTrace(LoggingEvents.KeyManagement, "Source ID loaded: {0}", SourceId);
+                Logger.LogInformation(LoggingEvents.KeyManagement, "Source ID loaded: {0}", SourceId);
             }
             else {
                 Logger.LogError(LoggingEvents.KeyManagement, "Source ID not loaded");
@@ -33,7 +33,7 @@ namespace WomPlatform.Web.Api {
 
             if (!string.IsNullOrEmpty(keysConf["PrivateInstrumentPath"])) {
                 InstrumentPrivateKey = LoadKeyFromPem<AsymmetricCipherKeyPair>(keysConf["PrivateInstrumentPath"]).Private;
-                Logger.LogTrace(LoggingEvents.KeyManagement, "Private key loaded: {0}", InstrumentPrivateKey);
+                Logger.LogInformation(LoggingEvents.KeyManagement, "Private key loaded: {0}", InstrumentPrivateKey);
             }
             else {
                 Logger.LogError(LoggingEvents.KeyManagement, "Private key not loaded");
@@ -41,13 +41,13 @@ namespace WomPlatform.Web.Api {
 
             if(!string.IsNullOrEmpty(keysConf["PublicRegistryPath"])) {
                 RegistryPublicKey = LoadKeyFromPem<AsymmetricKeyParameter>(keysConf["PublicRegistryPath"]);
-                Logger.LogTrace(LoggingEvents.KeyManagement, "Public key loaded: {0}", InstrumentPrivateKey);
+                Logger.LogInformation(LoggingEvents.KeyManagement, "Public key loaded: {0}", InstrumentPrivateKey);
             }
             else {
                 Logger.LogError(LoggingEvents.KeyManagement, "Public key not loaded");
             }
 
-            Logger.LogTrace(LoggingEvents.KeyManagement, "Registry keys loaded");
+            Logger.LogDebug(LoggingEvents.KeyManagement, "Registry keys loaded");
         }
 
         public static T LoadKeyFromPem<T>(string path) where T : class {
