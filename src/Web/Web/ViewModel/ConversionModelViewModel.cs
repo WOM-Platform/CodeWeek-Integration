@@ -14,7 +14,8 @@ namespace WomPlatform.Web.Api.ViewModel {
             CertificateNotExisting,
             EventUrlFailedToCheck,
             InternalWomGenerationError,
-            EventCertificateIdDifform
+            EventCertificateIdDifform,
+            EventTooOld
         }
 
         public ConversionError? Error { get; set; } = null;

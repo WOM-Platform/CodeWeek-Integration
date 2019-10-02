@@ -116,6 +116,9 @@
             @if (Model.Error == ConversionModelViewModel.ConversionError.EventCertificateIdDifform) {
                 <p class="error">Event page and certificate refer to different events.</p>
             }
+            @if (Model.Error == ConversionModelViewModel.ConversionError.EventTooOld) {
+                <p class="error">The event is too old: you may only conver events for Code Week 2019.</p>
+            }
 
         </div>
     </div>

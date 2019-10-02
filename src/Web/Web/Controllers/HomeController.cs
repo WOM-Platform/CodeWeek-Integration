@@ -98,6 +98,10 @@ namespace WomPlatform.Web.Api.Controllers {
                 redirectModel.Error = ConversionModelViewModel.ConversionError.EventCertificateIdDifform;
                 return RedirectToActionWithData(nameof(Index), redirectModel);
             }
+            if(certificateId < 200000) {
+                redirectModel.Error = ConversionModelViewModel.ConversionError.EventTooOld;
+                return RedirectToActionWithData(nameof(Index), redirectModel);
+            }
 
             if(Database.Certificates.Where(c => c.CertificateId == certificateId).Count() > 0) {
                 Logger.LogError("Certificate {0} already converted", certificateId);
