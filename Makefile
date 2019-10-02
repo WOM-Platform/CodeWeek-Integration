@@ -43,7 +43,7 @@ import-db: confirmation
 
 .PHONY: up
 up:
-	${DC} up -d
+	${DC} up -d web
 	${DC} ps
 	@echo
 	@echo 'WOM Code Week service is now up'
@@ -61,7 +61,7 @@ rs:
 rebuild:
 	${DC} rm -sf web
 	${DC} build web
-	${DC} up -d
+	${DC} up -d web
 
 .PHONY: stop
 stop:
