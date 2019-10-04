@@ -10,6 +10,13 @@ body > section {
     flex-grow: 1;
 }
 
+h2 {
+    margin-top: 2em;
+}
+h3 {
+    margin-top: 1em;
+}
+
 .centered {
     text-align: center;
 }
