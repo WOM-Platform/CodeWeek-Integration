@@ -24,3 +24,4 @@ services:
   database:
     volumes:
     - wom_codeweek_integration:/var/lib/mysql:rw
+    restart: unless-stopped
