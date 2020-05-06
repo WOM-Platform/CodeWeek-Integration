@@ -24,7 +24,7 @@ namespace WomPlatform.Web.Api {
             var keysConf = configuration.GetSection("RegistryKeys");
 
             if(!string.IsNullOrEmpty(keysConf["SourceID"])) {
-                SourceId = Convert.ToInt32(keysConf["SourceID"]);
+                SourceId = keysConf["SourceID"];
                 Logger.LogInformation(LoggingEvents.KeyManagement, "Source ID loaded: {0}", SourceId);
             }
             else {
@@ -70,7 +70,7 @@ namespace WomPlatform.Web.Api {
             }
         }
 
-        public int SourceId { get; }
+        public string SourceId { get; }
 
         public AsymmetricKeyParameter InstrumentPrivateKey { get; }
 

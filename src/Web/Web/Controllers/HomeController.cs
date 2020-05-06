@@ -141,7 +141,7 @@ namespace WomPlatform.Web.Api.Controllers {
 
             try {
                 var instrument = WomClient.CreateInstrument(KeyManager.SourceId, KeyManager.InstrumentPrivateKey);
-                var (otc, password) = await instrument.RequestVouchers(new Connector.Models.VoucherCreatePayload.VoucherInfo[] {
+                var request = await instrument.RequestVouchers(new Connector.Models.VoucherCreatePayload.VoucherInfo[] {
                     new Connector.Models.VoucherCreatePayload.VoucherInfo {
                         Aim = "E",
                         Count = 60,
@@ -164,8 +164,8 @@ namespace WomPlatform.Web.Api.Controllers {
                 }
 
                 return View("Vouchers", new ConversionResult {
-                    OtcCode = otc.ToString("N"),
-                    Password = password
+                    WomLink = request.Link,
+                    Password = request.Password
                 });
             }
             catch(Exception ex) {

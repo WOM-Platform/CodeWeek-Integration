@@ -19,8 +19,8 @@
 
     <div class="six columns centered">
         <p>
-            <a href="https://wom.social/vouchers/@Model.OtcCode">
-                <img src="@Url.Action("Index", "Render", new { url = "https://wom.social/vouchers/" + Model.OtcCode })" alt="WOM logo" class="u-full-width" />
+            <a href="@Model.WomLink">
+                <img src="@Url.Action("Index", "Render", new { url = Model.WomLink })" alt="WOM logo" class="u-full-width" />
             </a>
         </p>
 

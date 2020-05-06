@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -28,21 +29,14 @@ namespace WomPlatform.Web.Api {
                 .AddLocalization(options => {
                     options.ResourcesPath = "Resources";
                 })
+                .AddControllersWithViews()
             ;
 
             services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddMvcOptions(opts => {
                     opts.AllowEmptyInputInBodyModelBinding = true;
-                })
-                .AddJsonOptions(opts => {
-                    opts.SerializerSettings.Culture = CultureInfo.InvariantCulture;
-                    opts.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
-                    opts.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                    opts.SerializerSettings.DateParseHandling = DateParseHandling.DateTime;
-                    opts.SerializerSettings.Formatting = Formatting.None;
-                    opts.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             ;
@@ -70,13 +64,11 @@ namespace WomPlatform.Web.Api {
                 var keyManager = provider.GetRequiredService<KeyManager>();
                 Console.WriteLine("Private {0}", keyManager.InstrumentPrivateKey);
                 Console.WriteLine("Public {0}", keyManager.RegistryPublicKey);
-                return new Connector.Client(provider.GetRequiredService<ILoggerFactory>(), keyManager.RegistryPublicKey) {
-                    TestMode = true
-                };
+                return new Connector.Client("wom.social", provider.GetRequiredService<ILoggerFactory>(), keyManager.RegistryPublicKey);
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
@@ -87,12 +79,18 @@ namespace WomPlatform.Web.Api {
             };
 
             app.UseStaticFiles();
+
+            app.UseRouting();
+
             app.UseRequestLocalization(new RequestLocalizationOptions {
                 DefaultRequestCulture = new RequestCulture("en"),
                 SupportedCultures = cultures,
                 SupportedUICultures = cultures
             });
-            app.UseMvc();
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }
