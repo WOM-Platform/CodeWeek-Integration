@@ -62,8 +62,6 @@ namespace WomPlatform.Web.Api {
             services.AddScoped<DataContext>();
             services.AddScoped(provider => {
                 var keyManager = provider.GetRequiredService<KeyManager>();
-                Console.WriteLine("Private {0}", keyManager.InstrumentPrivateKey);
-                Console.WriteLine("Public {0}", keyManager.RegistryPublicKey);
                 return new Connector.Client("wom.social", provider.GetRequiredService<ILoggerFactory>(), keyManager.RegistryPublicKey);
             });
         }
